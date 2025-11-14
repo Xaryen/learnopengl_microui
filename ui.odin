@@ -45,11 +45,7 @@ ui_panel :: proc(ctx: ^Program) {
 
 	if ctx.ui.update_open {		
 		cnt := mu.get_container(ui_ctx, "Control Panel")
-		if ctx.ui.open {
-			cnt.open = true
-		} else {
-			cnt.open = false
-		}
+		cnt.open = b32(ctx.ui.open)
 	}
 	ctx.ui.update_open = false
 
