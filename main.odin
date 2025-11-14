@@ -125,6 +125,9 @@ main :: proc() {
 	gl.load_up_to(GL_MAJOR_VERSION, GL_MINOR_VERSION, glfw.gl_set_proc_address)
 
 	framebuffer_resize_callback :: proc "c" (window: glfw.WindowHandle, width, height: i32) {
+		ctx := (^Program)(glfw.GetWindowUserPointer(window))
+		ctx.window.size = {width, height}
+		ctx.camera.ar = f32(width)/f32(height)
 		gl.Viewport(0, 0, width, height)
 	}
 
