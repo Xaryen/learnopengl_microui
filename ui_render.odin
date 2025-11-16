@@ -15,20 +15,17 @@ UI_Vertex :: struct {
 
 UI_BUFFER_SIZE :: 16384
 
-@(private="file")
-g_ui_vertices  := [UI_BUFFER_SIZE*4]UI_Vertex{}
-@(private="file")
-g_ui_indices   := [UI_BUFFER_SIZE*6]u32{}
-@(private="file")
-g_ui_ctx       := mu.Context{}
-
 ui_r_init :: proc(ctx: ^Program) {
         shader_init(&ctx.ui.renderer.shader, "shaders/ui.vert", "shaders/ui.frag")
 
-        ctx.ui.renderer.vertices = g_ui_vertices[:]
-        ctx.ui.renderer.indices  = g_ui_indices[:]
+        @static s_ui_vertices  := [UI_BUFFER_SIZE*4]UI_Vertex{}
+        @static s_ui_indices   := [UI_BUFFER_SIZE*6]u32{}
+        @static s_ui_ctx       := mu.Context{}
 
-        ctx.ui.ctx  = &g_ui_ctx
+        ctx.ui.renderer.vertices = s_ui_vertices[:]
+        ctx.ui.renderer.indices  = s_ui_indices[:]
+
+        ctx.ui.ctx  = &s_ui_ctx
 
 
         gl.GenVertexArrays(1, &ctx.ui.renderer.vao)
